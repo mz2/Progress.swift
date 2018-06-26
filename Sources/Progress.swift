@@ -32,7 +32,7 @@ public protocol ProgressBarPrinter {
     mutating func display(_ progressBar: ProgressBar)
 }
 
-struct ProgressBarTerminalPrinter: ProgressBarPrinter {
+public struct ProgressBarTerminalPrinter: ProgressBarPrinter {
     var lastPrintedTime = 0.0
 
     init() {
@@ -41,10 +41,29 @@ struct ProgressBarTerminalPrinter: ProgressBarPrinter {
         print("")
     }
     
-    mutating func display(_ progressBar: ProgressBar) {
+    mutating public func display(_ progressBar: ProgressBar) {
         let currentTime = getTimeOfDay()
         if (currentTime - lastPrintedTime > 0.1 || progressBar.index == progressBar.count) {
             print("\u{1B}[1A\u{1B}[K\(progressBar.value)")
+            lastPrintedTime = currentTime
+        }
+    }
+}
+
+public typealias ProgressBlock = (_ progressBar: ProgressBar) -> ()
+
+public struct ProgressBarBlockPrinter : ProgressBarPrinter {
+    var lastPrintedTime = 0.0
+    let block: ProgressBlock
+    
+    public init(block: @escaping ProgressBlock) {
+        self.block = block
+    }
+    
+    mutating public func display(_ progressBar: ProgressBar) {
+        let currentTime = getTimeOfDay()
+        if (currentTime - lastPrintedTime > 0.1 || progressBar.index == progressBar.count) {
+            block(progressBar)
             lastPrintedTime = currentTime
         }
     }
