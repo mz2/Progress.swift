@@ -103,6 +103,11 @@ public struct ProgressBar {
         self.printer = printer ?? ProgressBarTerminalPrinter()
     }
     
+    public init(count: Int, queue: DispatchQueue = DispatchQueue.main, maxInterval: TimeInterval = 0.1, block: @escaping ProgressBlock) {
+        let printer = ProgressBarBlockPrinter(queue: queue, maxInterval: maxInterval, block: block)
+        self.init(count: count, configuration: nil, printer: printer)
+    }
+    
     public mutating func next() {
         guard index <= count else { return }
         let anotherSelf = self
