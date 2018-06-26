@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Progress.swift'
-  s.version = '0.2.0'
+  s.version = '0.3.0'
   s.license = 'MIT'
   s.summary = 'Instantly add beautiful progress bars to your Swift loops.'
   s.description = <<-DESC
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
                   DESC
   s.platform = :osx
   s.homepage = 'https://github.com/jkandzi/Progress.swift'
-  s.social_media_url = 'http://twitter.com/justuskandzi'
+  s.social_media_url = 'http://twitter.com/jkandzi'
   s.authors = { 'Justus Kandzi' => "jusus.kandzi@gmail.com" }
   s.source = { :git => 'https://github.com/jkandzi/Progress.swift.git', :tag => s.version }
   s.source_files = 'Sources/*.swift'
