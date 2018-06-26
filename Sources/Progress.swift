@@ -116,7 +116,10 @@ public struct ProgressBar {
         let anotherSelf = self
         printer.display(anotherSelf)
     }
-
+    
+    public var progress: Double {
+        return Double(self.index) / Double(self.count)
+    }
 }
 
 
