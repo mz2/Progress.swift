@@ -25,6 +25,7 @@
 //  SOFTWARE.
 //
 
+import Foundation
 
 // MARK: - ProgressBarDisplayer
 
@@ -54,16 +55,23 @@ public typealias ProgressBlock = (_ progressBar: ProgressBar) -> ()
 
 public struct ProgressBarBlockPrinter : ProgressBarPrinter {
     var lastPrintedTime = 0.0
+    let maxInterval: TimeInterval
     let block: ProgressBlock
+    let queue: DispatchQueue
     
-    public init(block: @escaping ProgressBlock) {
+    public init(block: @escaping ProgressBlock, queue: DispatchQueue = DispatchQueue.main, maxInterval: TimeInterval = 0.1) {
         self.block = block
+        self.queue = queue
+        self.maxInterval = maxInterval
     }
     
     mutating public func display(_ progressBar: ProgressBar) {
         let currentTime = getTimeOfDay()
-        if (currentTime - lastPrintedTime > 0.1 || progressBar.index == progressBar.count) {
-            block(progressBar)
+        if (currentTime - lastPrintedTime >= maxInterval || progressBar.index == progressBar.count) {
+            let printer = self
+            self.queue.async {
+                printer.block(progressBar)
+            }
             lastPrintedTime = currentTime
         }
     }
