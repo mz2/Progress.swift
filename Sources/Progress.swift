@@ -59,10 +59,10 @@ public struct ProgressBarBlockPrinter : ProgressBarPrinter {
     let block: ProgressBlock
     let queue: DispatchQueue
     
-    public init(block: @escaping ProgressBlock, queue: DispatchQueue = DispatchQueue.main, maxInterval: TimeInterval = 0.1) {
-        self.block = block
+    public init(queue: DispatchQueue = DispatchQueue.main, maxInterval: TimeInterval = 0.1, block: @escaping ProgressBlock) {
         self.queue = queue
         self.maxInterval = maxInterval
+        self.block = block
     }
     
     mutating public func display(_ progressBar: ProgressBar) {
